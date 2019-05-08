@@ -13,6 +13,9 @@ import com.olimipioscompany.retrofitgithubapi.model.GitHubRepo;
 
 import java.util.List;
 
+/**
+ * Adapter class for our list view
+ */
 public class GitHubRepoAdapter extends ArrayAdapter<GitHubRepo> {
 
     private Context context;

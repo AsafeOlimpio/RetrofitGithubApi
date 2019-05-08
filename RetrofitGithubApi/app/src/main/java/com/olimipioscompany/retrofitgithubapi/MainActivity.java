@@ -27,16 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.list);
 
+        //Retrofit builder with baseurl and gson converter
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
 
+        //Inicialize builder
         Retrofit retrofit = builder.build();
 
+        //Create client
         GitHubClient client = retrofit.create(GitHubClient.class);
+
+        //Call get method
         Call<List<GitHubRepo>> call = client.reposForUser("asafeolimpio");
 
+        /**
+         * Retrofit call
+         */
         call.enqueue(new Callback<List<GitHubRepo>>() {
+
+            /**
+             * On call response manage actions
+             * @param call
+             * @param response
+             */
             @Override
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 List<GitHubRepo> repos = response.body();
@@ -44,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
                 listView.setAdapter(new GitHubRepoAdapter(MainActivity.this, repos));
             }
 
+            /**
+             * On call faliure handle errors
+             * @param call
+             * @param t
+             */
             @Override
             public void onFailure(Call<List<GitHubRepo>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
